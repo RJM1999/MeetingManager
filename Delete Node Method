@@ -1,0 +1,112 @@
+/**
+	 * this method deletes nodes, based on the id inputed by the user. can delete nodes with 0,1 or 2 children
+	 * @param idToDelete the id of the node that is to be deleted
+	 */
+	public void deleteNode(int idToDelete) 
+	{
+		TreeNode current = root;
+		TreeNode previous = root;
+		TreeNode toDelete = searchTreeRef(idToDelete);
+		
+		if (root == null)
+		{
+			System.out.println("Error. Tree is empty. ");
+		}
+		else
+		{
+			while (current != null)
+			{
+				if (idToDelete == current.getStudentId())
+				{
+					
+					//want to delete current
+					//check for 0 children
+					if (current.getLeft() == null && current.getRight() == null)
+					{
+						
+						
+						if (previous.getStudentId() > current.getStudentId())
+						{
+							previous.setLeft(null);
+							System.out.println("Node deleted.");
+						}
+						else
+						{
+							previous.setRight(null);
+							System.out.println("Node deleted.");
+						}
+					}
+					
+					//want to delete current
+					//check for 1 child
+					if (current.getLeft() == null && current.getRight() != null)
+					{
+						if (previous.getStudentId() > current.getStudentId())
+						{
+							previous.setLeft(current.getRight());
+							System.out.println("Node deleted.");
+						}
+						else
+						{
+							previous.setRight(current.getRight());
+							System.out.println("Node deleted.");
+						}
+					}
+					
+					if (current.getLeft() != null && current.getRight() == null)
+					{
+						if (previous.getStudentId() > current.getStudentId())
+						{
+							previous.setLeft(current.getLeft());
+							System.out.println("Node deleted.");
+						}
+						else
+						{
+							previous.setRight(current.getLeft());
+							System.out.println("Node deleted.");
+						}
+					}
+					
+					//i needed a toDelete node here to keep track of the node to be deleted 
+					//while current found the rightmost node in the left subtree
+					//check for 2 children
+					if (current.getLeft() != null && current.getRight() != null)
+					{
+						
+						current = toDelete.getLeft();
+						
+						while (current.getRight() != null)
+						{
+							previous = current;
+							current = current.getRight();
+						}
+						if (current.getRight() == null)
+						{
+							//set new variables to copy to node
+							int id = current.getStudentId();
+							int mark = current.getStudentMark();
+							
+							deleteNode(current.getStudentId());
+
+							toDelete.setStudentId(id);
+							toDelete.setStudentMark(mark);
+							System.out.println("Node deleted.");
+						}
+					}
+				}
+				
+				if (idToDelete > current.getStudentId())
+				{
+					previous = current;
+					current = current.getRight();
+				}
+				else
+				{
+					previous = current;
+					current = current.getLeft();
+				}
+				
+				
+			}
+		}
+	}
