@@ -34,7 +34,13 @@ public class Diary
 	public void addMeeting()
 	{
 		Date startTime = inputDateOfMeeting();
+		
+		while(startTime == null)
+		{
+			startTime = inputDateOfMeeting();
+		}
 		Date endTime = new Date(startTime.getTime() + calculateDuration());
+		
 		String desc = getDesc();
 		
 		Meeting newNode = new Meeting(startTime, desc); //make new node
@@ -180,7 +186,7 @@ public class Diary
 	}
 	
 	/**
-	 * This method calls the display tree
+	 * This method calls the display tree method
 	 */
 	public void printTree()
 	{
@@ -188,7 +194,7 @@ public class Diary
 	}
 	
 	/**
-	 * 
+	 * This method prints out the tree on its side
 	 * @param rootOfTree Meeting the root of the tree
 	 */
 	public void displayTree(Meeting rootOfTree)

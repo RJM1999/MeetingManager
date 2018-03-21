@@ -17,12 +17,23 @@ public class Meeting
 		
 	}
 	
+	/**
+	 * Constructor when adding a new node to the tree. 
+	 * @param inStartTime Date the start date of the meeting to be added
+	 * @param desc - String a description of the meeting to be added
+	 */
 	Meeting(Date inStartTime, String desc)
 	{
 		startTime = inStartTime;
 		description = desc;
 	}
 	
+	/**
+	 * Constructor when the user loads in tree
+	 * @param inStartTime - Date the start time of the meeting
+	 * @param inEndTime - Date the end time of the meeting
+	 * @param desc - String a description of the meeting to be added 
+	 */
 	Meeting(Date inStartTime, Date inEndTime, String desc)
 	{
 		startTime = inStartTime;
