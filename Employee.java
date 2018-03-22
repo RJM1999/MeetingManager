@@ -1,4 +1,8 @@
+import java.util.Date;
+
 /**
+ * 
+ * Class for creating a new employee
  * 
  * @author Sarah Hartley
  *
@@ -8,7 +12,7 @@
 public class Employee {
 	
 	// fields to store the data being held in this list node (a student ID, name and diary)
-    private String id;
+    private int id;
     private String name;
     private Employee next;
     private Diary diary;
@@ -18,10 +22,10 @@ public class Employee {
      */
     public Employee()
     {
-        id = "";
+        id = 0;
         name = "";
         next = null;
-        diary = null;
+        setDiary(null);
     }
 
     /**
@@ -30,21 +34,21 @@ public class Employee {
      * @param id The id for the student
      * @param mark The student's mark
      */
-    public Employee(String id, String name)
+    public Employee(int id, String name)
     {
         this.id = id;
         this.name = name;
         this.next = null;
-        this.diary = null;
+        this.setDiary(null);
     }
 
     
     /**
      * Get the employee ID contained in this list node
      * 
-     * @return The employee's ID as a String
+     * @return The employee's ID as an int
      */
-    public String getID()
+    public int getID()
     {
         return id;
     }
@@ -87,14 +91,35 @@ public class Employee {
     
     
     public void printMeetings() {
-    	diary.printTree();
+    	getDiary().printTree();
     }
     
     public void saveMeetings() {
-    	diary.saveTree();
+    	getDiary().saveTree();
     }
 
     public void loadMeetings() {
-    	diary.loadTree();
+    	getDiary().loadTree();
     }
+    
+    public void addMeeting() {
+    	getDiary().addMeeting();
+    }
+    
+    public void deleteMeeting() {
+    	Date dateToDelete = inputDateOfMeeting();
+    	getDiary().deleteNode(dateToDelete);
+    }
+    
+    public Date inputDateOfMeeting() {
+    	return getDiary().inputDateOfMeeting();
+    }
+
+	public Diary getDiary() {
+		return diary;
+	}
+
+	public void setDiary(Diary diary) {
+		this.diary = diary;
+	}
 }

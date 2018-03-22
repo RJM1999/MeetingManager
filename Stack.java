@@ -1,4 +1,11 @@
 import java.util.Date;
+/**
+ * Stack class for undo feature
+ * 
+ * @author Arran Roy
+ *
+ * @version v1.0
+ */
 
 public class Stack 
 {

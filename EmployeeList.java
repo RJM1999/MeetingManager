@@ -1,6 +1,8 @@
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
+ * 
+ * Class for creating linked list of employees
  * 
  * @author Sarah Hartley
  *
@@ -51,12 +53,14 @@ public class EmployeeList {
      * @param id The id of the Employee to be placed in this list node
      * @param name The Employee's name 
      */
-    public void addToList(String id, String name)
+    public void addToList(int id, String name)
     {
     	Employee newNode;
     	newNode = new Employee(id, name);
     	newNode.setNext(head);
+    	newNode.setDiary(new Diary());
     	head = newNode;
+    	System.out.println(name + " has been added.");
     }
     
 
@@ -85,13 +89,13 @@ public class EmployeeList {
     public void searchForEmployee() {
     	boolean found = false;
     	Employee foundNode = null;
-    	System.out.println("Please enter the ID of the Employee you would like to search for");
-    	Scanner s = new Scanner(System.in);
-		String idToSearch = s.nextLine();
+    	String input = JOptionPane.showInputDialog(null,
+				"Please enter the ID of the Employee you would like to search for");
+    	int idToSearch = Integer.parseInt(input);
 		Employee marker = null;
     	marker = head;
     	while (marker != null && foundNode == null){
-    		if (marker.getID().equals(idToSearch)) {
+    		if (marker.getID() == idToSearch) {
     			foundNode = marker;
     			found = true;
     		}
@@ -112,9 +116,31 @@ public class EmployeeList {
      * method to delete an employee node from the list
      */
     public void delete() {
-    	
+    	String input = JOptionPane.showInputDialog(null,
+				"Please enter the id of the employee you would like to delete");
+		int id = Integer.parseInt(input);
+    	Employee nodeToDelete = null;
+    	Employee previous = null;
+    	Employee current = null;
+    	current = head;
+    	while (current != null && nodeToDelete == null){
+    		if (current.getID() == id) {
+    			nodeToDelete = current;
+    		}
+    		else {
+    			previous = current;
+    			current = current.getNext();
+    		}
+    	}
+    	if (previous == null) {
+    		head.setNext(nodeToDelete.getNext());
+    	}
+    	else {
+    		previous.setNext(nodeToDelete.getNext());
+    	}
+    	System.out.println(nodeToDelete.getName() + " has been deleted");
     }
-    
+  
     
     /**
      * Method to check if the list is empty
@@ -137,12 +163,12 @@ public class EmployeeList {
      * @param id a string containing the ID of the employee
      * @return Employee A reference to an employee object
      */
-    public Employee find(String id) {
+    public Employee find(int id) {
     	Employee foundNode = null;
     	Employee marker = null;
     	marker = head;
     	while (marker != null && foundNode == null){
-    		if (marker.getID().equals(id)) {
+    		if (marker.getID() == id) {
     			foundNode = marker;
     		}
     		else {

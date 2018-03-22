@@ -7,12 +7,23 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
+
+/**
+ * Diary class creating binary tree of meetings
+ * 
+ * @author Ross Maider
+ * 
+ * @version v1.0
+ *
+ */
 
 public class Diary
 {
 	//Define Fields
 	Meeting root;
+	FileOutputStream outputStream = null;
+	PrintWriter printWriter = null;
 	
 	/**
 	 * Default constructor, no parameters.
@@ -148,12 +159,12 @@ public class Diary
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm"); //Date formatter
 		Date meetingDate = null; //Returned variable 
-		String stringDate; //Input date
+		//String stringDate; //Input date
 		
 		//Get Date
-		Scanner s1 =  new Scanner(System.in);
-		System.out.println("Please input the date of the meeting and the start time of the meeting in the format dd-mm-yyyyThh:mm");
-		stringDate = s1.next();
+		String stringDate = JOptionPane.showInputDialog(null,
+				"Please input the date of the meeting and the start time of the meeting in the format dd-mm-yyyyThh:mm");
+
 		
 		//Try to format date
 		try 
@@ -176,17 +187,18 @@ public class Diary
 	public long calculateDuration()
 	{
 		//Get duration
-		Scanner s3 =  new Scanner(System.in);
-		System.out.println("Please input the duration of the meeting in minutes");
-		int duration = s3.nextInt();
-	
+		String input = JOptionPane.showInputDialog(null,
+				"Please input the duration of the meeting in minutes");
+		int duration = Integer.parseInt(input);
+
 		long millis = duration * 60 * 1000; //convert to milliseconds 
 		
 		return millis; //return it
 	}
 	
 	/**
-	 * This method calls the display tree method
+-	 * This method calls the display tree
++	 * This method calls the display tree method
 	 */
 	public void printTree()
 	{
@@ -194,7 +206,8 @@ public class Diary
 	}
 	
 	/**
-	 * This method prints out the tree on its side
+-	 * 
++	 * This method prints out the tree on its side
 	 * @param rootOfTree Meeting the root of the tree
 	 */
 	public void displayTree(Meeting rootOfTree)
@@ -380,12 +393,10 @@ public class Diary
 	
 	public String getDesc()
 	{
-		String desc;
-		
-		Scanner s1 = new Scanner(System.in);
-		System.out.println("Please input a descripiton of the meeting");
-		desc = s1.next();
-		
+
+		String desc = JOptionPane.showInputDialog(null,
+				"Please input a descripiton of the meeting");
+
 		return desc;
 	}
 	
@@ -395,15 +406,15 @@ public class Diary
 	   public void saveTree(){
 
 		   try {
-			   FileOutputStream outputStream = new FileOutputStream("preorderTree.txt");
-			   PrintWriter printWriter = new PrintWriter(outputStream);
+			   outputStream = new FileOutputStream("preorderTree.txt");
+			   printWriter = new PrintWriter(outputStream);
 			   outputTree(root, printWriter);
 		   }
 		   catch(Exception e){
 			   System.out.println("Error " + e);
 		   }
 		   finally {
-			   
+			   printWriter.close();
 		   }
 		}
 

@@ -1,5 +1,12 @@
 import java.util.Date;
 
+/**
+ * Class creating tree nodes (meetings)
+ * 
+ * @author Ross Maider
+ *
+ * @version v1.0
+ */
 public class Meeting
 {
 	//Define Fields
