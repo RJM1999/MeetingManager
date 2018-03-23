@@ -90,35 +90,80 @@ public class Employee {
     }
     
     
+    /**
+     * method to call print tree in diary class
+     */
     public void printMeetings() {
     	getDiary().printTree();
     }
     
+    
+    /**
+     * method to call save tree in diary class
+     */
     public void saveMeetings() {
     	getDiary().saveTree();
     }
 
+    
+    /**
+     * method to call load tree in diary class
+     */
     public void loadMeetings() {
     	getDiary().loadTree();
     }
     
+    
+    /**
+     * method to call add meeting in diary class
+     */
     public void addMeeting() {
     	getDiary().addMeeting();
     }
     
+    
+    /**
+     * method to call delete meeting in diary class
+     */
     public void deleteMeeting() {
     	Date dateToDelete = inputDateOfMeeting();
     	getDiary().deleteNode(dateToDelete);
     }
     
+    
+    /**
+     * method to call edit meeting in diary class
+     */
+    public void editMeeting() {
+    	getDiary().edit();
+    }
+    
+    
+    /**
+     * method to call input date of meeting in diary class
+     * 
+     * @return the date of the meeting
+     */
     public Date inputDateOfMeeting() {
     	return getDiary().inputDateOfMeeting();
     }
 
+    
+    /**
+     * method to get the employees diary
+     * 
+     * @return diary the employees diary
+     */
 	public Diary getDiary() {
 		return diary;
 	}
 
+	
+	/**
+	 * method to set the employees diary
+	 * 
+	 * @param diary the employees diary
+	 */
 	public void setDiary(Diary diary) {
 		this.diary = diary;
 	}

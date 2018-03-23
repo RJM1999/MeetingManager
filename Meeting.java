@@ -1,4 +1,8 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.JOptionPane;
 
 /**
  * Class creating tree nodes (meetings)
@@ -72,42 +76,7 @@ public class Meeting
 		String data = "The start date and time of the meeting is " + getStartTime() + " The end time and date of the meeting is " + getEndTime() + " Description: " + getDescription();
 		return data;
 	}
-	
-	public void editMeeting()
-	{
-		Diary edit = new Diary();
-		String newDesc;
-		String newStringDate;
-		Date newDate = null;
-		long newDur;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm"); //Date formatter
-		Date endTime = new Date();
-		
-		Scanner s1 = new Scanner(System.in);
-		System.out.println("Please enter the new start date for the meeting in the format dd-MM-yyyyTHH:mm");
-		newStringDate = s1.nextLine();
-		
-		newDur = edit.calculateDuration();
-		
-		newDesc = edit.getDesc();
-		
-		try 
-		{
-			newDate = dateFormat.parse(newStringDate);
-		}
-		catch (ParseException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		endTime.setTime(newDur + newDate.getTime());
-		
-		setStartTime(newDate);
-		setDescription(newDesc);
-		setEndTime(endTime);
-	}
-	
+
 	//****GETTERS AND SETTERS****
 
 	/**

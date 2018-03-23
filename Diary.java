@@ -150,6 +150,27 @@ public class Diary
 		}
 	}
 	
+	public void edit() {
+		Date startDate = inputDateOfMeeting();
+		Meeting meetingToEdit = findInTree(startDate);
+		String input = JOptionPane.showInputDialog(null,
+				"What would you like to edit? \n 1:date\n2: duration\n3: description");
+		int option = Integer.parseInt(input);
+		if (option == 1) {
+			Date newDate = inputDateOfMeeting();
+			meetingToEdit.setStartTime(newDate);
+		}
+		else if (option == 2) {
+			Date endTime = new Date(startDate.getTime() + calculateDuration());
+			meetingToEdit.setEndTime(endTime);
+		}
+		else if (option == 3) {
+			String desc = getDesc();
+			meetingToEdit.setDescription(desc);
+		}
+		System.out.println("Meeting modified");
+	}
+	
 	
 	/**
 	 * This method gets the date for the meeting 
@@ -391,6 +412,8 @@ public class Diary
 		}
 	}
 	
+	
+	
 	public String getDesc()
 	{
 
@@ -443,7 +466,8 @@ public class Diary
 	   {
 			FileReader fileReader = null;
 			BufferedReader bufferedReader = null;
-			DateFormat df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+			DateFormat df =  new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 			try 
 			{
 				fileReader = new FileReader("preorderTree.txt");

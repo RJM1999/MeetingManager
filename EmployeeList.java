@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 public class EmployeeList {
 
     private Employee head; 
+    int idToDelete;
     
     /**
      * Default constructor. Initialise fields to default values.
@@ -75,8 +76,7 @@ public class EmployeeList {
     	}
     	else {
     		while (marker != null){
-    			System.out.println("ID: " + marker.getID());
-    			System.out.println("Mark: " + marker.getName() + "\n");
+    			System.out.println("ID: " + marker.getID() + "  Name: " + marker.getName());
     			marker = marker.getNext();
     		}
     	}
@@ -89,26 +89,31 @@ public class EmployeeList {
     public void searchForEmployee() {
     	boolean found = false;
     	Employee foundNode = null;
-    	String input = JOptionPane.showInputDialog(null,
+    	try {
+    		String input = JOptionPane.showInputDialog(null,
 				"Please enter the ID of the Employee you would like to search for");
-    	int idToSearch = Integer.parseInt(input);
-		Employee marker = null;
-    	marker = head;
-    	while (marker != null && foundNode == null){
-    		if (marker.getID() == idToSearch) {
-    			foundNode = marker;
-    			found = true;
+    		int idToSearch = Integer.parseInt(input);
+    		Employee marker = null;
+    		marker = head;
+    		while (marker != null && foundNode == null){
+    			if (marker.getID() == idToSearch) {
+    				foundNode = marker;
+    				found = true;
+    			}
+    			else {
+    				marker = marker.getNext();
+    			}
+    		}
+    		if (found == true) {
+    			System.out.println("Employee name: " + marker.getName());
     		}
     		else {
-    			marker = marker.getNext();
-    		}
+    			System.out.println("Sorry, there is no Employee matching that ID");
+    		}	
     	}
-    	if (found == true) {
-    		System.out.println("Employee name: " + marker.getName());
+    	catch(Exception e) {
+    		System.out.println("Sorry, there was an error with your input. Please make sure you are entering the id correctly");
     	}
-    	else {
-    		System.out.println("Sorry, there is no Employee matching that ID");
-    	}	
     }
     
     
@@ -116,29 +121,47 @@ public class EmployeeList {
      * method to delete an employee node from the list
      */
     public void delete() {
-    	String input = JOptionPane.showInputDialog(null,
-				"Please enter the id of the employee you would like to delete");
-		int id = Integer.parseInt(input);
-    	Employee nodeToDelete = null;
-    	Employee previous = null;
-    	Employee current = null;
-    	current = head;
-    	while (current != null && nodeToDelete == null){
-    		if (current.getID() == id) {
-    			nodeToDelete = current;
+    	boolean empty = isListEmpty();
+    	if (empty == false) { //if there are employees in the list
+    		try {
+    			String input = JOptionPane.showInputDialog(null,
+    					"Please enter the id of the employee you would like to delete");
+    			idToDelete = Integer.parseInt(input);
+    			Employee found = find(idToDelete); //checking employee exists in list
+    			if (found == null) {
+    				System.out.println("There is no employee matching that ID in the list");
+    				return; //ends method
+    			}
+    		}
+    		catch(Exception e){
+    			System.out.println("Sorry, there was an error. Please make sure that you are inputting the id correctly.");
+    		}
+    		Employee nodeToDelete = null;
+    		Employee previous = null;
+    		Employee current = null;
+    		current = head;
+    		
+    		while (current != null && nodeToDelete == null){
+    			if (current.getID() == idToDelete) {
+    				nodeToDelete = current;
+    			}
+    			else {
+    				previous = current;
+    				current = current.getNext();
+    			}
+    		}
+    		System.out.println(nodeToDelete.getName() + " has been deleted");
+    		if (previous == null) {
+    			head = head.getNext();
     		}
     		else {
-    			previous = current;
-    			current = current.getNext();
-    		}
+    			previous.setNext(nodeToDelete.getNext());
+    		}	
     	}
-    	if (previous == null) {
-    		head.setNext(nodeToDelete.getNext());
+    	else { //the list is empty
+    		System.out.println("The list is empty");
     	}
-    	else {
-    		previous.setNext(nodeToDelete.getNext());
-    	}
-    	System.out.println(nodeToDelete.getName() + " has been deleted");
+    	
     }
   
     
