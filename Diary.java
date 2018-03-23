@@ -443,7 +443,7 @@ public class Diary
 	   {
 			FileReader fileReader = null;
 			BufferedReader bufferedReader = null;
-			DateFormat df =  new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			DateFormat df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 			try 
 			{
 				fileReader = new FileReader("preorderTree.txt");
