@@ -6,8 +6,6 @@ import javax.swing.JOptionPane;
  * 
  * @author Sarah Hartley
  *
- * @version v1.0
- *
  */
 public class EmployeeList {
 
@@ -64,6 +62,16 @@ public class EmployeeList {
     	System.out.println(name + " has been added.");
     }
     
+    public void addTestEmployee(int id, String name)
+    {
+    	Employee newNode;
+    	newNode = new Employee(id, name);
+    	newNode.setNext(head);
+    	newNode.setDiary(new Diary());
+    	head = newNode;
+    	System.out.println(name + " has been added.");
+    }
+    
 
     /**
      * Method to print all of the employees currently held in the list
@@ -71,11 +79,11 @@ public class EmployeeList {
     public void printList() {
     	Employee marker = null;
     	marker = head;
-    	if (marker == null) {
+    	if (marker == null) { //list is empty
     		System.out.println("There are no employees in the list");
     	}
     	else {
-    		while (marker != null){
+    		while (marker != null){ 
     			System.out.println("ID: " + marker.getID() + "  Name: " + marker.getName());
     			marker = marker.getNext();
     		}
@@ -95,7 +103,7 @@ public class EmployeeList {
     		int idToSearch = Integer.parseInt(input);
     		Employee marker = null;
     		marker = head;
-    		while (marker != null && foundNode == null){
+    		while (marker != null && foundNode == null){ //while not at the end of list and node hasn't been found
     			if (marker.getID() == idToSearch) {
     				foundNode = marker;
     				found = true;
