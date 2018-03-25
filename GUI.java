@@ -9,12 +9,9 @@ import javax.swing.JTextArea;
  * 
  * @author Sarah Hartley
  *
- * @version v1.0
  */
 
 public class GUI {
-
-	//EmployeeList list = new EmployeeList();
 
 	
 	public GUI() {
@@ -35,18 +32,18 @@ public class GUI {
 
 	public void gui() {
 
-		JTextArea calculate = new JTextArea(5,5);
-		//calculate.setBounds(x,y,width,height); /*x,y,width,height are integer Values*/
-		calculate.setBounds(50,50,250,200);
-		calculate.setVisible(true);
-		calculate.setLineWrap (true);
+		JTextArea console = new JTextArea();
+		console.setBounds(50,50,250,200);
+		console.setVisible(true);
+		console.setLineWrap (true);
+		console.setFont(new Font("Arial", Font.PLAIN, 18));
 		
 		EmployeeList list = new EmployeeList();
 		
 		JFrame f = new JFrame();
 		f.setTitle("Meeting Manager");
 		f.setVisible(true);
-		f.setSize(600, 400);
+		f.setSize(800, 500);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocationRelativeTo(null);
 		
@@ -54,15 +51,21 @@ public class GUI {
 		JPanel background = new JPanel(); //creating panel
 		background.setBackground(Color.white); //setting background colour to white
 		JButton exit = new JButton("EXIT");
+		exit.setFont(new Font("Arial", Font.PLAIN, 20));
+		JButton runTests = new JButton("RUN TESTS");
+		runTests.setFont(new Font("Arial", Font.PLAIN, 20));
 		        
 		//Creating a menu bar
 		JMenuBar mb = new JMenuBar();
 		 
 		JMenu employee = new JMenu("Employee");
+		employee.setFont(new Font("Arial", Font.PLAIN, 20));
 		mb.add(employee);
 		JMenu meeting = new JMenu("Meeting");
+		meeting.setFont(new Font("Arial", Font.PLAIN, 20));
 		mb.add(meeting);
 		JMenu file = new JMenu("File");
+		file.setFont(new Font("Arial", Font.PLAIN, 20));
 		mb.add(file);
 		
 		//Creating drop down options
@@ -93,12 +96,13 @@ public class GUI {
 		
 		//Displaying the menu
 		p.add(exit);
+		p.add(runTests);
 		f.add(background);
 		f.add(p,BorderLayout.EAST);
 		f.setJMenuBar(mb);
-		f.add(calculate);
+		f.add(console);
 		
-		System.setOut(new PrintStream(new Console(calculate)));
+		System.setOut(new PrintStream(new Console(console)));
 		
 		//Action Listeners
 		addEmployee.addActionListener(new ActionListener() { //ADD EMPLOYEE
@@ -192,7 +196,7 @@ public class GUI {
 			}});
 		undo.addActionListener(new ActionListener() { //UNDO
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("UNDO");
+				Stack undo = new Stack();
 			}
 		});
 		
@@ -228,6 +232,14 @@ public class GUI {
 		exit.addActionListener(new ActionListener() { //EXIT 
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
+			}
+		});
+		runTests.addActionListener(new ActionListener() { //EXIT 
+			public void actionPerformed(ActionEvent e) {
+				list.addTestEmployee(10,"Jack");
+				
+				Employee found = list.find(10);
+				found.addTestMeeting();
 			}
 		});
 	}
