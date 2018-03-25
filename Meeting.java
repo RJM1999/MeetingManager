@@ -149,4 +149,13 @@ public class Meeting
 		this.right = right;
 	}
 	
+	//added by Arran for use by Stack class 23/03/18
+	public void setNext(Meeting nextNode) {
+		next = nextNode;
+	}
+
+	public Meeting getNext() {
+		return next;
+	}
+	
 }
