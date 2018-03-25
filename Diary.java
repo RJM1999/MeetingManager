@@ -150,6 +150,75 @@ public class Diary
 		}
 	}
 	
+	/**
+	 * This method adds to the meeting binary tree for testing purposes
+	 * @param inStartTime - String date to be added 
+	 * @param inEndTime -  String end date
+	 * @param desc - String description
+	 */
+	public void addMeeting(String inStartTime,String inEndTime, String desc)
+	{
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+		Date startTime = null;
+		try 
+		{
+			startTime = df.parse(inStartTime);
+		} catch (ParseException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Date endTime = new Date(startTime.getTime() + calculateDuration());
+		
+		Meeting newNode = new Meeting(startTime, desc); //make new node
+		
+		newNode.setEndTime(endTime);
+		
+		if(findInTree(startTime) == null) //As long as the ID is not in the tree (duplicate data)
+		{
+			if(root == null)
+			{
+				root = newNode; //If the tree is empty set as the root if tree
+			}
+			else
+			{
+				Meeting current = root; //start at root
+				Meeting parent; //prev
+				
+				while(true) //Until added
+				{
+					parent = current; //Set prev to current 
+					
+					if(startTime.before(current.getStartTime())) //If ID is smaller than current 
+					{
+						current = current.getLeft(); //go left
+						
+						if(current == null) //If its null
+						{
+							parent.setLeft(newNode); //Add to tree
+							return; //Exit
+						}
+					}
+					else //Otherwise 
+					{
+						current = current.getRight(); //Go right
+						
+						if(current == null) //If its null
+						{
+							parent.setRight(newNode); //Add 
+							return; //exit
+						}
+					}
+				}
+			}
+		}
+		else //Otherwise 
+		{
+			System.out.println("Data was not added because it was already in the tree"); //Print message 
+		}
+	}
+	
 	public void edit() {
 		Date startDate = inputDateOfMeeting();
 		Meeting meetingToEdit = findInTree(startDate);
