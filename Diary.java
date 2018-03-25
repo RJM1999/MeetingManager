@@ -432,6 +432,11 @@ public class Diary
 		}
 		else
 		{
+			if(root.getStartTime().compareTo(dateToDelete) == 0 && root.getLeft() == null && root.getRight() == null)
+			{
+				root = null;
+			}
+			
 			while(dateToDelete.compareTo(current.getStartTime()) != 0) //While its not the ID we are looking for
 			{
 				previous = current;
