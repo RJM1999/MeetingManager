@@ -115,16 +115,15 @@ public class Employee {
     /**
      * method to call add meeting in diary class
      */
-    public void addMeeting() {
-    	getDiary().addMeeting();
+    public void addMeeting(Date startDate, Date endDate, String desc) {
+    	getDiary().addMeeting(startDate, endDate, desc);
     }
     
     
     /**
      * method to call delete meeting in diary class
      */
-    public void deleteMeeting() {
-    	Date dateToDelete = inputDateOfMeeting();
+    public void deleteMeeting(Date dateToDelete) {
     	getDiary().deleteNode(dateToDelete);
     }
     
@@ -132,8 +131,8 @@ public class Employee {
     /**
      * method to call edit meeting in diary class
      */
-    public void editMeeting() {
-    	getDiary().edit();
+    public void editMeeting(int option, Date startDate, Date endTime, String desc, Date newDate) {
+    	getDiary().edit(option, startDate, endTime, desc, newDate);
     }
     
     
@@ -147,6 +146,15 @@ public class Employee {
     	getDiary().addTestMeetings("23-04-2018T12:00", 20,"Test 4");
     }
     
+    /**
+     * Method to find the node in the tree
+     * 
+     * @param startDate the start date and time
+     * @return the node 
+     */
+    public Meeting stack(Date startDate) {
+    	return getDiary().findInTree(startDate);
+    }
     
     /**
      * method to call input date of meeting in diary class
@@ -177,3 +185,4 @@ public class Employee {
 		this.diary = diary;
 	}
 }
+
