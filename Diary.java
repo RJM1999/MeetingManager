@@ -255,7 +255,6 @@ public class Diary
 	
 	/**
 	 * This method is used to find a meeting within the binary tree.
-	 * @param dateOfMeeting - Date field the date of the meeting
 	 * @param startTime - Date field the start time of the meeting
 	 * @return - Meeting a pointer to the meeting that it found
 	 */
@@ -290,6 +289,44 @@ public class Diary
 		}
 		return current; //return the node
 	}
+	
+	//added by Arran for use in search method 24/03/18
+	/**
+		 * method used to find a meeting within a binary tree
+		 * @param startTime date field that is the start timie of the meeting
+		 * @return returns true if meeting is there, false if not
+		 */
+		public boolean findInTreeSearchMethod(Date startTime)
+		{
+			Meeting current; //Holding node
+			
+			current = root; //start at the root
+			
+			if(isTreeEmpty() == true) //Check if tree is empty
+			{
+				return false;
+			}
+			else
+			{
+				while(startTime.compareTo(current.getStartTime()) < 0 || startTime.compareTo(current.getStartTime()) > 0) //While its not the ID we are looking for
+				{
+					if(startTime.compareTo(current.getStartTime()) < 0)
+					{
+						current = current.getLeft(); //Go left
+					}
+					else
+					{
+						current = current.getRight(); //Go right
+					}
+					
+					if(current == null)
+					{
+						return false; //not found
+					}
+				}
+			}
+			return true; //return true
+		}
 	
 	/**
 	 * The method checks if the tree is empty and return a boolean
