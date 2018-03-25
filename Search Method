@@ -1,0 +1,233 @@
+/**
+	 * searching for meeting availabilities
+	 */
+	public void searchForMeetingSlot()
+	{
+		Scanner input = new Scanner(System.in);
+		int employeeNum;
+		int numOfDays = 0;
+		int daysLeft = 0;
+		Date startDate = null;
+		Date endDate = null;
+		
+		//creating date formatter
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+		
+		//create array 0 to 7 for time slots during the day
+		//each part of array represent a different time slot (e.g 9-10, 10-11 etc)
+		int [] timeSlotsArray = new int[7];
+		
+		//get number of employee diarys from input
+		System.out.println("Please enter the number of employee diarys to be compared:");
+		employeeNum = input.nextInt() - 1;
+		
+		//create array for employees
+		Employee[] employeeArray = new Employee[employeeNum];
+		
+		//initialise first part of employee array
+		employeeArray[0] = employeeList.getHead();
+		
+		//add the rest of the employees to array
+		for(int i = 1; i < employeeNum; i++)
+		{
+			employeeArray[i] = employeeArray[i-1].getNext();
+		}
+
+		//get start date
+		int startDateDay = 0;
+		int startDateMonth = 0;
+		int startDateYear = 0;
+		
+		//get start date day
+		System.out.println("Please enter the day of the start date of the search: ");
+		startDateDay = input.nextInt();
+		
+		//get start date month
+		System.out.println("Please enter the month: ");
+		startDateMonth = input.nextInt();
+				
+		//get start date year
+		System.out.println("Please enter the year: ");
+		startDateYear = input.nextInt();
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(startDateYear, startDateMonth, startDateDay, 9, 0, 0);
+		startDate = calendar.getTime();
+		
+		//get end date
+		int endDateDay = 0;
+		int endDateMonth = 0;
+		int endDateYear = 0;
+		
+		//get end date day
+		System.out.println("Please enter the day of the end date of the search: ");
+		endDateDay = input.nextInt();
+				
+		//get end date month
+		System.out.println("Please enter the month: ");
+		endDateMonth = input.nextInt();
+						
+		//get end date year
+		System.out.println("Please enter the year: ");
+		endDateYear = input.nextInt();
+		
+		calendar.set(endDateYear, endDateMonth, endDateDay, 17, 0, 0);
+		endDate = calendar.getTime();
+		
+		/*Date currentDate = startDate;
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(Calendar.DAY_OF_MONTH, startDateDay);
+        calendar.set(Calendar.MONTH, startDateMonth);
+        calendar.set(Calendar.YEAR, startDateYear);
+        calendar.set(Calendar.HOUR, 9);
+        startDate = calendar.set(field, value);();
+
+		
+		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(insert2[0]));
+        calendar.set(Calendar.MONTH, Integer.parseInt(insert2[1]));
+        calendar.set(Calendar.YEAR, Integer.parseInt(insert2[2]));
+        endDate = calendar.getTime();
+        
+        long milliDifference = endDate.getTime() - startDate.getTime();
+
+        numOfDays = (milliDifference / 1000 / 60 / 60 / 24);
+        daysLeft = numOfDays;s
+        
+        calendar.setTime(currentDate);*/
+
+		numOfDays = (endDateDay - startDateDay) + 1;
+		
+		int[] numOfDaysArray = new int[numOfDays];
+		
+		daysLeft = numOfDays;
+		
+		//set calendar to startDate
+		calendar.setTime(startDate);
+		
+		//create currentDate for traversing
+		Date currentDate = startDate;
+		
+		//look at each employee diary
+		for(int j = 0; j < employeeArray.length; j++)
+		{
+			//look at each day within the diary
+			//for(int x = 0; x < numOfDaysArray.length; x++)
+			//{
+				//look at each time slot within each employee diary
+				for(int i = 0; i < timeSlotsArray.length; i++)
+				{
+					//if all days have been checked
+					if(daysLeft == 0)
+					{
+						for(int k = 0; k < timeSlotsArray.length; k++)
+						{
+							if(timeSlotsArray[k] == 0)
+							{
+								//show time slots available
+								System.out.println("Free space for meeting for all employees at: ");
+								if(k == 0)
+								{
+									System.out.println((k+1) + ". 9am");
+								}
+								if(k == 1)
+								{
+									System.out.println((k+1) + ". 10am");
+								}
+								if(k == 2)
+								{
+									System.out.println((k+1) + ". 11am");
+								}
+								if(k == 3)
+								{
+									System.out.println((k+1) + ". 12pm");
+								}
+								if(k == 4)
+								{
+									System.out.println((k+1) + ". 1pm");
+								}
+								if(k == 5)
+								{
+									System.out.println((k+1) + ". 2pm");
+								}
+								if(k == 6)
+								{
+									System.out.println((k+1) + ". 3pm");
+								}
+								if(k == 7)
+								{
+									System.out.println((k+1) + ". 4pm");
+								}
+							}
+						}
+						//ask for users choice
+						System.out.println("During which slot would you like to add a meeting?");
+						int userSlotChoice = input.nextInt();
+						
+						//ask for description
+						System.out.println("During which slot would you like to add a meeting?");
+						String description = input.nextLine();
+
+						//add meetings to the time slots
+						switch (userSlotChoice)
+						{
+							case 1:
+								for(int q = 0; q < employeeNum; q++)
+								{
+									Date dateToAdd = null;
+									dateToAdd.setTime(startDate.getTime() + 3600000);
+									employeeArray[q].getDiary().addMeeting(startDate,dateToAdd,description);
+								}
+								break;
+							case 2:
+								
+								break;
+							case 3:
+								
+								break;
+							case 4:
+								
+								break;
+							case 5:
+								
+								break;
+							case 6:
+								
+								break;
+							case 7:
+								
+								break;
+							case 8:
+								
+								break;
+						}
+					}
+					else
+					{
+						//if hours are 17 (5 o'clock), then set hours to 9 and take 1 from days left
+						//this sets currentHours to the morning of the next day
+						if(calendar.HOUR_OF_DAY == 17)
+						{
+							calendar.add(Calendar.HOUR_OF_DAY, -8);
+							calendar.add(Calendar.DAY_OF_MONTH, 1);
+							//take one away from the daysLeft
+							daysLeft--;
+						}
+						//if there is a meeting at current time
+						else if(employeeArray[j].getDiary().findInTreeSearchMethod(currentDate))
+						{
+							//add 1 to part of timeSlotsArray[i] that represents that hour
+							timeSlotsArray[i]++;
+							
+							//add 1 to part of numOfDaysArray[x] that represents the day
+							//numOfDaysArray[x]++;
+							
+							//add 1 hour to currentDate
+							calendar.add(Calendar.HOUR_OF_DAY, 1);
+							currentDate = calendar.getTime();
+						}
+					}
+				}
+			//}
+		}
+	}
