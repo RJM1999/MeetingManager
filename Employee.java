@@ -6,8 +6,6 @@ import java.util.Date;
  * 
  * @author Sarah Hartley
  *
- * @version v1.0
- *
  */
 public class Employee {
 	
@@ -136,6 +134,17 @@ public class Employee {
      */
     public void editMeeting() {
     	getDiary().edit();
+    }
+    
+    
+    /**
+     * method to call add test meetings in diary class
+     */
+    public void addTestMeeting() {
+    	getDiary().addTestMeetings("23-04-2018T09:00", 45,"Test 1");
+    	getDiary().addTestMeetings("24-04-2018T09:00", 30,"Test 2");
+    	getDiary().addTestMeetings("25-04-2018T09:00", 60,"Test 3");
+    	getDiary().addTestMeetings("23-04-2018T12:00", 20,"Test 4");
     }
     
     
