@@ -69,23 +69,26 @@ public class Stack
     
     /**
      * method that pops the head of the stack
-     * @return The return value 
+     * @return The return value is the address of the meeting that has just been popped
      */
-    public void popFromStack()
+    public Meeting popFromStack()
     {
     	//Declare a marker/variable called ‘meetingToDelete’ which will point to a Meeting
     	Meeting meetingToDelete;
-    	
     	
     	//Before deleting a node, check if the stack is empty
     	if (head == null)
     	{
     		//If it is empty, return null
     		System.out.println("Nothing to pop from stack.");
+    		return null;
     	}
     	//Else
     	else
     	{
+    		//creating a meeting to return
+    		Meeting nodeToReturn = head;
+    		
     		//make nodeToDelete point to head
     		meetingToDelete = head;
     		
@@ -94,6 +97,8 @@ public class Stack
     		
     		//print the number being popped form stack
     		System.out.println("Popped " + meetingToDelete);
+    		
+    		return nodeToReturn;
     	}
     }
     
