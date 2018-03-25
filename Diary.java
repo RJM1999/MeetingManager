@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
  * 
  * @author Ross Maider
  * 
- * @version v1.0
- *
  */
 
 public class Diary
@@ -41,6 +39,7 @@ public class Diary
 	{
 		root = inRoot;
 	}
+	
 	
 	public void addMeeting()
 	{
@@ -102,6 +101,7 @@ public class Diary
 		}
 	}
 	
+	
 	public void addMeeting(Date startTime, Date endTime, String desc)
 	{
 		Meeting newNode = new Meeting(startTime, endTime, desc); //make new node
@@ -150,13 +150,14 @@ public class Diary
 		}
 	}
 	
+	
 	/**
 	 * This method adds to the meeting binary tree for testing purposes
 	 * @param inStartTime - String date to be added 
 	 * @param inEndTime -  String end date
 	 * @param desc - String description
 	 */
-	public void addMeeting(String inStartTime,String inEndTime, String desc)
+	public void addTestMeetings(String inStartTime,long dur, String desc)
 	{
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
 		Date startTime = null;
@@ -169,9 +170,9 @@ public class Diary
 			e.printStackTrace();
 		}
 		
-		Date endTime = new Date(startTime.getTime() + calculateDuration());
+		Date endTime = new Date(startTime.getTime() + dur);
 		
-		Meeting newNode = new Meeting(startTime, desc); //make new node
+		Meeting newNode = new Meeting(startTime, endTime, desc); //make new node
 		
 		newNode.setEndTime(endTime);
 		
@@ -218,6 +219,7 @@ public class Diary
 			System.out.println("Data was not added because it was already in the tree"); //Print message 
 		}
 	}
+	
 	
 	public void edit() {
 		Date startDate = inputDateOfMeeting();
@@ -309,11 +311,7 @@ public class Diary
 	        {
 	           indent += 6; //Add  6
 	           displayTree(rootOfTree.getLeft()); //Go to the right 
-
-	           for (i=6; i<indent; i=i+6) 
-	              System.out.print ("\t");
-	              
-	              
+  
 	            System.out.println("      " + rootOfTree.getData());
 
 	            displayTree(rootOfTree.getRight());
@@ -324,6 +322,7 @@ public class Diary
 	
 	/**
 	 * This method is used to find a meeting within the binary tree.
+	 * @param dateOfMeeting - Date field the date of the meeting
 	 * @param startTime - Date field the start time of the meeting
 	 * @return - Meeting a pointer to the meeting that it found
 	 */
@@ -358,44 +357,6 @@ public class Diary
 		}
 		return current; //return the node
 	}
-	
-	//added by Arran for use in search method 24/03/18
-	/**
-		 * method used to find a meeting within a binary tree
-		 * @param startTime date field that is the start timie of the meeting
-		 * @return returns true if meeting is there, false if not
-		 */
-		public boolean findInTreeSearchMethod(Date startTime)
-		{
-			Meeting current; //Holding node
-			
-			current = root; //start at the root
-			
-			if(isTreeEmpty() == true) //Check if tree is empty
-			{
-				return false;
-			}
-			else
-			{
-				while(startTime.compareTo(current.getStartTime()) < 0 || startTime.compareTo(current.getStartTime()) > 0) //While its not the ID we are looking for
-				{
-					if(startTime.compareTo(current.getStartTime()) < 0)
-					{
-						current = current.getLeft(); //Go left
-					}
-					else
-					{
-						current = current.getRight(); //Go right
-					}
-					
-					if(current == null)
-					{
-						return false; //not found
-					}
-				}
-			}
-			return true; //return true
-		}
 	
 	/**
 	 * The method checks if the tree is empty and return a boolean
