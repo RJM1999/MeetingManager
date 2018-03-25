@@ -359,6 +359,43 @@ public class Diary
 	}
 	
 	/**
+	 * method searches the tree for a meeting. returns true/false
+	 * @param startTime date field that is the start time of the meeting
+	 * @return returns true if meeting is in tree
+	 */
+	public boolean findInTreeSearchMethod(Date startTime)
+	{
+		Meeting current; //Holding node
+		
+		current = root; //start at the root
+		
+		if(isTreeEmpty() == true) //Check if tree is empty
+		{
+			return false;
+		}
+		else
+		{
+			while(startTime.compareTo(current.getStartTime()) < 0 || startTime.compareTo(current.getStartTime()) > 0) //While its not the ID we are looking for
+			{
+				if(startTime.compareTo(current.getStartTime()) < 0)
+				{
+					current = current.getLeft(); //Go left
+				}
+				else
+				{
+					current = current.getRight(); //Go right
+				}
+				
+				if(current == null)
+				{
+					return false; //not found
+				}
+			}
+		}
+		return true; //return the node
+	}
+	
+	/**
 	 * The method checks if the tree is empty and return a boolean
 	 * @return empty Boolean True if the tree is empty
 	 */
