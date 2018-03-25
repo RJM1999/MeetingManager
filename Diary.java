@@ -221,22 +221,16 @@ public class Diary
 	}
 	
 	
-	public void edit() {
-		Date startDate = inputDateOfMeeting();
+	public void edit(int option, Date startDate, Date endTime, String desc, Date newDate) {
 		Meeting meetingToEdit = findInTree(startDate);
-		String input = JOptionPane.showInputDialog(null,
-				"What would you like to edit? \n 1:date\n2: duration\n3: description");
-		int option = Integer.parseInt(input);
+	
 		if (option == 1) {
-			Date newDate = inputDateOfMeeting();
 			meetingToEdit.setStartTime(newDate);
 		}
 		else if (option == 2) {
-			Date endTime = new Date(startDate.getTime() + calculateDuration());
 			meetingToEdit.setEndTime(endTime);
 		}
 		else if (option == 3) {
-			String desc = getDesc();
 			meetingToEdit.setDescription(desc);
 		}
 		System.out.println("Meeting modified");
