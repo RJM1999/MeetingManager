@@ -40,22 +40,24 @@ public class Diary
 		root = inRoot;
 	}
 	
-	
+	/**
+	*Method for adding a meeting to the tree
+	*/
 	public void addMeeting()
 	{
-		Date startTime = inputDateOfMeeting();
+		Date startTime = inputDateOfMeeting(); //Get date of meeting
 		
-		while(startTime == null)
+		while(startTime == null) //Make sure its not empty
 		{
 			startTime = inputDateOfMeeting();
 		}
-		Date endTime = new Date(startTime.getTime() + calculateDuration());
+		Date endTime = new Date(startTime.getTime() + calculateDuration()); //Calculate the duration of the meeting and update the end time
 		
-		String desc = getDesc();
+		String desc = getDesc(); //get meeting description
 		
 		Meeting newNode = new Meeting(startTime, desc); //make new node
 		
-		newNode.setEndTime(endTime);
+		newNode.setEndTime(endTime); //set end time
 		
 		if(findInTree(startTime) == null) //As long as the ID is not in the tree (duplicate data)
 		{
@@ -101,7 +103,12 @@ public class Diary
 		}
 	}
 	
-	
+	/**
+	 * This method is used to add a meeting when loading in from a file
+	 * @param startTime - Date start date of meeting
+	 * @param endTime - Date end date of a meeting
+	 * @param desc - String description of a meeting
+	 */
 	public void addMeeting(Date startTime, Date endTime, String desc)
 	{
 		Meeting newNode = new Meeting(startTime, endTime, desc); //make new node
@@ -220,17 +227,24 @@ public class Diary
 		}
 	}
 	
-	
+	/**
+	 * This method is used to edit a meeting
+	 * @param option - Int for undo
+	 * @param startDate - Date start date of meeting
+	 * @param endTime - Date end date of meeting
+	 * @param desc - String description of the meeting
+	 * @param newDate
+	 */
 	public void edit(int option, Date startDate, Date endTime, String desc, Date newDate) {
 		Meeting meetingToEdit = findInTree(startDate);
 	
-		if (option == 1) {
+		if (option == 1) { //To edit start time of meeting
 			meetingToEdit.setStartTime(newDate);
 		}
-		else if (option == 2) {
+		else if (option == 2) { //to edit the end time 
 			meetingToEdit.setEndTime(endTime);
 		}
-		else if (option == 3) {
+		else if (option == 3) { //change description 
 			meetingToEdit.setDescription(desc);
 		}
 		System.out.println("Meeting modified");
@@ -516,7 +530,10 @@ public class Diary
 	}
 	
 	
-	
+	/**
+	 * This method gets a user to input a string for the description of a meeting
+	 * @return String description
+	 */
 	public String getDesc()
 	{
 
@@ -532,14 +549,14 @@ public class Diary
 	   public void saveTree(){
 
 		   try {
-			   outputStream = new FileOutputStream("preorderTree.txt");
-			   printWriter = new PrintWriter(outputStream);
-			   outputTree(root, printWriter);
+			   outputStream = new FileOutputStream("preorderTree.txt"); //Make a file 
+			   printWriter = new PrintWriter(outputStream); //Start print writer
+			   outputTree(root, printWriter); //Start to write to file
 		   }
-		   catch(Exception e){
+		   catch(Exception e){ //Errors
 			   System.out.println("Error " + e);
 		   }
-		   finally {
+		   finally { //Close print writer
 			   printWriter.close();
 		   }
 		}
@@ -551,13 +568,13 @@ public class Diary
 	    * @param node the node to print
 	    */
 	   public void outputTree(Meeting node, PrintWriter printWriter){
-		   if (node != null)
+		   if (node != null) // if its not null
 		   {
 			   
-			   printWriter.println(node.getStartTime() + "," + node.getEndTime() + "," + node.getDescription());
-			   System.out.println(node.getData());
-			   outputTree(node.getLeft(), printWriter);
-			   outputTree(node.getRight(), printWriter);
+			   printWriter.println(node.getStartTime() + "," + node.getEndTime() + "," + node.getDescription()); //Write to file using a , as delimitter
+			   System.out.println(node.getData()); //print to console
+			   outputTree(node.getLeft(), printWriter); //go left
+			   outputTree(node.getRight(), printWriter); //go right
 			}
 	    }
 	   
@@ -567,27 +584,27 @@ public class Diary
 	    */
 	   public void loadTree() 
 	   {
-			FileReader fileReader = null;
-			BufferedReader bufferedReader = null;
+			FileReader fileReader = null; //File reader
+			BufferedReader bufferedReader = null; //Buffered reader
 			DateFormat df =  new SimpleDateFormat("dd-MM-yyyy HH:mm");
-			df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+			df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"); //For reading in the date
 			try 
 			{
-				fileReader = new FileReader("preorderTree.txt");
-				bufferedReader = new BufferedReader(fileReader);
+				fileReader = new FileReader("preorderTree.txt"); //open file
+				bufferedReader = new BufferedReader(fileReader); 
 				
-				String nextLine = bufferedReader.readLine();
+				String nextLine = bufferedReader.readLine(); //Read line
 				
-				while (nextLine != null) { //reading in the user grid
-					String[] parts = nextLine.split(",");
-					Date startTime = df.parse(parts[0]);
-					Date endTime = df.parse(parts[1]);
-					String desc = parts[2];
-					addMeeting(startTime, endTime, desc);
-					nextLine = bufferedReader.readLine();
+				while (nextLine != null) { //reading in the data
+					String[] parts = nextLine.split(","); //Spilt into array using ,
+					Date startTime = df.parse(parts[0]); // Startime is the first part
+					Date endTime = df.parse(parts[1]); //end time is the second part of the array
+					String desc = parts[2]; //description is the final element of the array
+					addMeeting(startTime, endTime, desc); //Add it
+					nextLine = bufferedReader.readLine(); //Get next line
 				}
 			}
-			catch (IOException e)
+			catch (IOException e) //Error
 			{
 				System.out.println("Error reading from file: " + e);
 			} catch (ParseException e) {
