@@ -30,25 +30,13 @@ public class Console extends OutputStream {
 	* Called when data has been written to the console.
 	*/
 	private void outputToConsole() {
-		int lines = 0;
-		for (int i = 0; i < text.size(); i++) {
-			byte b = text.get(i);
-
-		    if (b == 10) {
-		        lines++;
-		    }
-
-		    if (lines >= 250) {
-		    	text = (ArrayList<Byte>) text.subList(i, text.size());
-		    }
-		 }
-
+		
 		 StringBuilder sb = new StringBuilder();
 
 		 for (byte b : text) {
-		      sb.append((char) b);
+		      sb.append((char) b); //adds string to sequence
 		 }
-
+		 
 		 output.setText(sb.toString()); //setting output to text that has been built
 	}
 
@@ -59,10 +47,8 @@ public class Console extends OutputStream {
 	@Override
 	public void write(int i) throws IOException {
 
-		// Append the piece of data to our array of data.
-		text.add((byte) i);
-
-		// Indicate that data has just been written.
-		outputToConsole();
+		text.add((byte) i); //add data to the array
+		outputToConsole(); //calls method to print data in GUI console
+	
 	}
 }

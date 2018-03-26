@@ -1,10 +1,9 @@
 import java.util.Date;
+
 /**
  * Stack class for undo feature
  * 
  * @author Arran Roy
- *
- * @version v1.0
  */
 
 public class Stack 
@@ -13,6 +12,7 @@ public class Stack
 	// will be the first item in the list, i.e. at the 'head' of the list
 	private Meeting head; 
 
+	
     /**
      * Default constructor. Initialise fields to default values.
      */
@@ -21,6 +21,7 @@ public class Stack
         // set the list to be empty, i.e. not referring to anything valid yet
         head = null;
     }
+    
     
     /**
      * Get the Meeting which is at the 'head' of the list
@@ -33,6 +34,7 @@ public class Stack
     {
         return head;
     }
+    
     
     /**
      * Set the 'head' of the list to the given node
@@ -50,11 +52,15 @@ public class Stack
     
 
     /**
-     * Add a new node to the start of the list which will contain
-     * the data provided (a number).
+     * this method saves the information of the meeting to the stack
      * 
+     * @param startTime the starting date of the meeting being added
+     * @param endTime the end date of the meeting being added
+     * @param description the description of the meeting being added
+     * @param left the left child node of the meeting being added
+     * @param right the right child node of the meeting being added
      */
-    public void pushToStack(Date startTime, Date endTime, String duration, Meeting left, Meeting right)
+    public void pushToStack(Date startTime, Date endTime, String description, Meeting left, Meeting right)
     {
     	Meeting newMeeting = new Meeting();
     	
@@ -62,7 +68,7 @@ public class Stack
     	newMeeting.setNext(head);
     	newMeeting.setStartTime(startTime);
     	newMeeting.setEndTime(endTime);
-    	newMeeting.setDuration(duration);
+    	newMeeting.setDescription(description);
     	newMeeting.setLeft(left);
     	newMeeting.setRight(right);
     	
@@ -70,15 +76,14 @@ public class Stack
     	//thus making the new node the head
     	head = newMeeting;
     	
-    	//print the number being pushed form stack
-    	System.out.println("Pushed " + newMeeting);
     }
     
+    
     /**
-     * 
-     * @return The return value 
+     * method that pops the head of the stack
+     * @return The return value that is the meeting being popped
      */
-    public void popFromStack()
+    public Meeting popFromStack()
     {
     	//Declare a marker/variable called ‘meetingToDelete’ which will point to a Meeting
     	Meeting meetingToDelete;
@@ -101,8 +106,32 @@ public class Stack
     		
     		//print the number being popped form stack
     		System.out.println("Popped " + meetingToDelete);
+    		return meetingToDelete;
     	}
+		return null;
     }
     
     
+    /**
+	 * Prints out the number in the current node
+	 */
+	public void printStack()
+	{
+		// Create a ListNode variable called ‘currentNode’
+		// Set marker to be the same as the Head
+		Meeting currentNode = head;
+	   
+	    // While marker is not null
+		while (currentNode != null)
+		{
+			// print the information at marker
+			System.out.println(currentNode.getStartTime());
+			System.out.println(currentNode.getEndTime());
+			System.out.println(currentNode.getDescription());
+
+			// move marker to the next ListNode
+			currentNode = currentNode.getNext();
+	    // End while
+		}
+	}
 }

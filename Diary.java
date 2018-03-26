@@ -40,24 +40,25 @@ public class Diary
 		root = inRoot;
 	}
 	
+	
 	/**
-	*Method for adding a meeting to the tree
+	* Method for adding a meeting to the tree
 	*/
 	public void addMeeting()
 	{
-		Date startTime = inputDateOfMeeting(); //Get date of meeting
+		Date startTime = inputDateOfMeeting();
 		
-		while(startTime == null) //Make sure its not empty
+		while(startTime == null)
 		{
 			startTime = inputDateOfMeeting();
 		}
-		Date endTime = new Date(startTime.getTime() + calculateDuration()); //Calculate the duration of the meeting and update the end time
+		Date endTime = new Date(startTime.getTime() + calculateDuration());
 		
-		String desc = getDesc(); //get meeting description
+		String desc = getDesc();
 		
 		Meeting newNode = new Meeting(startTime, desc); //make new node
 		
-		newNode.setEndTime(endTime); //set end time
+		newNode.setEndTime(endTime);
 		
 		if(findInTree(startTime) == null) //As long as the ID is not in the tree (duplicate data)
 		{
@@ -103,8 +104,10 @@ public class Diary
 		}
 	}
 	
+	
 	/**
 	 * This method is used to add a meeting when loading in from a file
+	 * 
 	 * @param startTime - Date start date of meeting
 	 * @param endTime - Date end date of a meeting
 	 * @param desc - String description of a meeting
@@ -160,76 +163,8 @@ public class Diary
 	
 	/**
 	 * This method adds to the meeting binary tree for testing purposes
-	 * @param inStartTime - String date to be added 
-	 * @param inEndTime -  String end date
-	 * @param desc - String description
-	 */
-	public void addTestMeetings(String inStartTime,long dur, String desc)
-	{
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
-		Date startTime = null;
-		try 
-		{
-			startTime = df.parse(inStartTime);
-		} catch (ParseException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Date endTime = new Date(startTime.getTime() + dur);
-		
-		Meeting newNode = new Meeting(startTime, endTime, desc); //make new node
-		
-		newNode.setEndTime(endTime);
-		
-		if(findInTree(startTime) == null) //As long as the ID is not in the tree (duplicate data)
-		{
-			if(root == null)
-			{
-				root = newNode; //If the tree is empty set as the root if tree
-			}
-			else
-			{
-				Meeting current = root; //start at root
-				Meeting parent; //prev
-				
-				while(true) //Until added
-				{
-					parent = current; //Set prev to current 
-					
-					if(startTime.before(current.getStartTime())) //If ID is smaller than current 
-					{
-						current = current.getLeft(); //go left
-						
-						if(current == null) //If its null
-						{
-							parent.setLeft(newNode); //Add to tree
-							return; //Exit
-						}
-					}
-					else //Otherwise 
-					{
-						current = current.getRight(); //Go right
-						
-						if(current == null) //If its null
-						{
-							parent.setRight(newNode); //Add 
-							return; //exit
-						}
-					}
-				}
-			}
-		}
-		else //Otherwise 
-		{
-			System.out.println("Data was not added because it was already in the tree"); //Print message 
-		}
-	}
-	
-	/**
-	 * This method is used to edit a meeting
-	 * @param option - Int for undo
+	 * 
+	  * @param option - Int for undo
 	 * @param startDate - Date start date of meeting
 	 * @param endTime - Date end date of meeting
 	 * @param desc - String description of the meeting
@@ -238,13 +173,13 @@ public class Diary
 	public void edit(int option, Date startDate, Date endTime, String desc, Date newDate) {
 		Meeting meetingToEdit = findInTree(startDate);
 	
-		if (option == 1) { //To edit start time of meeting
+		if (option == 1) {
 			meetingToEdit.setStartTime(newDate);
 		}
-		else if (option == 2) { //to edit the end time 
+		else if (option == 2) {
 			meetingToEdit.setEndTime(endTime);
 		}
-		else if (option == 3) { //change description 
+		else if (option == 3) {
 			meetingToEdit.setDescription(desc);
 		}
 		System.out.println("Meeting modified");
@@ -280,6 +215,7 @@ public class Diary
 		}
 	}
 	
+	
 	/**
 	 * This method gets a suer to input the duration in minutes and converts to milliseconds. 
 	 * @return millis Long variable for getting the meetings duration in milliseconds 
@@ -306,8 +242,8 @@ public class Diary
 	}
 	
 	/**
--	 * 
-+	 * This method prints out the tree on its side
+	 * 
+	 * This method prints out the tree on its side
 	 * @param rootOfTree Meeting the root of the tree
 	 */
 	public void displayTree(Meeting rootOfTree)
@@ -367,43 +303,6 @@ public class Diary
 	}
 	
 	/**
-	 * method searches the tree for a meeting. returns true/false
-	 * @param startTime date field that is the start time of the meeting
-	 * @return returns true if meeting is in tree
-	 */
-	public boolean findInTreeSearchMethod(Date startTime)
-	{
-		Meeting current; //Holding node
-		
-		current = root; //start at the root
-		
-		if(isTreeEmpty() == true) //Check if tree is empty
-		{
-			return false;
-		}
-		else
-		{
-			while(startTime.compareTo(current.getStartTime()) < 0 || startTime.compareTo(current.getStartTime()) > 0) //While its not the ID we are looking for
-			{
-				if(startTime.compareTo(current.getStartTime()) < 0)
-				{
-					current = current.getLeft(); //Go left
-				}
-				else
-				{
-					current = current.getRight(); //Go right
-				}
-				
-				if(current == null)
-				{
-					return false; //not found
-				}
-			}
-		}
-		return true; //return the node
-	}
-	
-	/**
 	 * The method checks if the tree is empty and return a boolean
 	 * @return empty Boolean True if the tree is empty
 	 */
@@ -418,6 +317,7 @@ public class Diary
 		
 		return empty;
 	}
+	
 	
 	/**
 	 * this method deletes nodes, based on the id inputed by the user. can delete nodes with 0,1 or 2 children
@@ -442,7 +342,8 @@ public class Diary
 			{
 				root = null;
 			}
-			
+			else
+			{
 			while(dateToDelete.compareTo(current.getStartTime()) != 0) //While its not the ID we are looking for
 			{
 				previous = current;
@@ -502,6 +403,7 @@ public class Diary
 					}
 				}
 			}
+			
 			else
 			{
 				   Meeting previousOfToDelete = previous;
@@ -525,7 +427,7 @@ public class Diary
 
 				   current.setRight(nodeToDelete.getRight());
 			}
-				
+			}	
 		}
 	}
 	
@@ -549,14 +451,14 @@ public class Diary
 	   public void saveTree(){
 
 		   try {
-			   outputStream = new FileOutputStream("preorderTree.txt"); //Make a file 
-			   printWriter = new PrintWriter(outputStream); //Start print writer
-			   outputTree(root, printWriter); //Start to write to file
+			   outputStream = new FileOutputStream("preorderTree.txt");
+			   printWriter = new PrintWriter(outputStream);
+			   outputTree(root, printWriter);
 		   }
-		   catch(Exception e){ //Errors
+		   catch(Exception e){
 			   System.out.println("Error " + e);
 		   }
-		   finally { //Close print writer
+		   finally {
 			   printWriter.close();
 		   }
 		}
@@ -568,13 +470,13 @@ public class Diary
 	    * @param node the node to print
 	    */
 	   public void outputTree(Meeting node, PrintWriter printWriter){
-		   if (node != null) // if its not null
+		   if (node != null)
 		   {
 			   
-			   printWriter.println(node.getStartTime() + "," + node.getEndTime() + "," + node.getDescription()); //Write to file using a , as delimitter
-			   System.out.println(node.getData()); //print to console
-			   outputTree(node.getLeft(), printWriter); //go left
-			   outputTree(node.getRight(), printWriter); //go right
+			   printWriter.println(node.getStartTime() + "," + node.getEndTime() + "," + node.getDescription());
+			   System.out.println(node.getData());
+			   outputTree(node.getLeft(), printWriter);
+			   outputTree(node.getRight(), printWriter);
 			}
 	    }
 	   
@@ -584,27 +486,27 @@ public class Diary
 	    */
 	   public void loadTree() 
 	   {
-			FileReader fileReader = null; //File reader
-			BufferedReader bufferedReader = null; //Buffered reader
+			FileReader fileReader = null;
+			BufferedReader bufferedReader = null;
 			DateFormat df =  new SimpleDateFormat("dd-MM-yyyy HH:mm");
-			df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"); //For reading in the date
+			df =  new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 			try 
 			{
-				fileReader = new FileReader("preorderTree.txt"); //open file
-				bufferedReader = new BufferedReader(fileReader); 
+				fileReader = new FileReader("preorderTree.txt");
+				bufferedReader = new BufferedReader(fileReader);
 				
-				String nextLine = bufferedReader.readLine(); //Read line
+				String nextLine = bufferedReader.readLine();
 				
-				while (nextLine != null) { //reading in the data
-					String[] parts = nextLine.split(","); //Spilt into array using ,
-					Date startTime = df.parse(parts[0]); // Startime is the first part
-					Date endTime = df.parse(parts[1]); //end time is the second part of the array
-					String desc = parts[2]; //description is the final element of the array
-					addMeeting(startTime, endTime, desc); //Add it
-					nextLine = bufferedReader.readLine(); //Get next line
+				while (nextLine != null) { //reading in the user grid
+					String[] parts = nextLine.split(",");
+					Date startTime = df.parse(parts[0]);
+					Date endTime = df.parse(parts[1]);
+					String desc = parts[2];
+					addMeeting(startTime, endTime, desc);
+					nextLine = bufferedReader.readLine();
 				}
 			}
-			catch (IOException e) //Error
+			catch (IOException e)
 			{
 				System.out.println("Error reading from file: " + e);
 			} catch (ParseException e) {
@@ -613,6 +515,41 @@ public class Diary
 			}
 		}
 	
+	   /**
+	   * method searches the tree for a meeting. returns true/false
+	   * @param startTime date field that is the start time of the meeting
+	   * @return returns true if meeting is in tree
+	   */
+	   public boolean findInTreeSearchMethod(Date startTime)
+	   {
+		   Meeting current; //Holding node
+		   current = root; //start at the root
+		   if(isTreeEmpty() == true) //Check if tree is empty
+		   {
+			   return false;
+		   }
+		   else
+		   {
+			   while(startTime.compareTo(current.getStartTime()) < 0 || startTime.compareTo(current.getStartTime()) > 0) //While its not the ID we are looking for
+			   {
+				   if(startTime.compareTo(current.getStartTime()) < 0)
+				   {
+					   current = current.getLeft(); //Go left
+				   }
+				   else
+				   {
+					   current = current.getRight(); //Go right
+				   }
+				   if(current == null)
+				   {
+					   return false; //not found
+				   }
+			   }
+		   }
+		   return true; //return the node
+	   }
+
+
 	
 	//GETTERS AND SETTERS
 
@@ -629,4 +566,5 @@ public class Diary
 	public void setRoot(Meeting root) {
 		this.root = root;
 	}
+	
 }

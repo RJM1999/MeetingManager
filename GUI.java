@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -64,8 +66,6 @@ public class GUI {
 		background.setBackground(Color.white); //setting background colour to white
 		JButton exit = new JButton("EXIT");
 		exit.setFont(new Font("Arial", Font.PLAIN, 20));
-		JButton runTests = new JButton("RUN TESTS");
-		runTests.setFont(new Font("Arial", Font.PLAIN, 20));
 		        
 		//Creating a menu bar
 		JMenuBar mb = new JMenuBar();
@@ -112,7 +112,6 @@ public class GUI {
 		
 		//Displaying the menu
 		p.add(exit);
-		p.add(runTests);
 		f.add(background);
 		f.add(p,BorderLayout.EAST);
 		f.setJMenuBar(mb);
@@ -249,205 +248,160 @@ public class GUI {
 					System.out.println("Sorry, there was an error printing the meetings. Please try again");
 				}
 			}});
-		searchMeetings.addActionListener(new ActionListener() { //UNDO
+		searchMeetings.addActionListener(new ActionListener() { //SEARCH FOR AVAILABILITIES
 			public void actionPerformed(ActionEvent e) {
-				String input = JOptionPane.showInputDialog(null,
-						"Please enter the number of employees you would like to compare");
-				int employeeNum = Integer.parseInt(input);
-				employeeNum--;
-				int numOfDays = 0;
-				int daysLeft = 0;
-				Date startDate = null;
-				Date endDate = null;
+				long start = System.nanoTime();
 				//creating date formatter
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
-				//create array 0 to 7 for time slots during the day
-				//each part of array represent a different time slot (e.g 9-10, 10-11 etc)
-				int [] timeSlotsArray = new int[7];
-				//get number of employee diarys from input
-				//System.out.println("Please enter the number of employee diarys to be compared:");
-				//employeeNum = input.nextInt() - 1;
-				//create array for employees
-				Employee[] employeeArray = new Employee[employeeNum];
-				//initialise first part of employee array
-				employeeArray[0] = list.getHead();
-				//add the rest of the employees to array
-				for(int i = 1; i < employeeNum; i++)
-				{
-					employeeArray[i] = employeeArray[i-1].getNext();
+				String[] employeeArray;
+				String employeeNames = JOptionPane.showInputDialog(null,
+						"Please enter the names of employees you would like to compare, separated by commas");
+				employeeArray = employeeNames.split(","); //Creating array of names 
+				
+				int[] employee1Schedule = new int[9];
+				int[] employee2Schedule = new int[9];
+				int[] employee3Schedule = new int[9];
+				int[] employee4Schedule = new int[9];
+				int[] employee5Schedule = new int[9];
+				
+				for (int i=0; i<8; i++) { //initialising employee schedules
+					employee1Schedule[i] = 0;
+					employee2Schedule[i] = 0;
+					employee3Schedule[i] = 0;
+					employee4Schedule[i] = 0;
+					employee5Schedule[i] = 0;
 				}
-
-				//get start date
-				int startDateDay = 0;
-				int startDateMonth = 0;
-				int startDateYear = 0;
 				
-				//get start date day
-				String day = JOptionPane.showInputDialog(null,
-						"Please enter the day of the start date of the search: ");
-				startDateDay = Integer.parseInt(day);
-				
-				//get start date month
-				String month = JOptionPane.showInputDialog(null,
-						"Please enter the month of the start date of the search: ");
-				startDateMonth = Integer.parseInt(month);
-				
-				//get start date year
-				String year = JOptionPane.showInputDialog(null,
-						"Please enter the year: ");
-				startDateYear = Integer.parseInt(year);
-				
-				Calendar calendar = Calendar.getInstance();
-				calendar.set(startDateYear, startDateMonth, startDateDay, 9, 0, 0);
-				startDate = calendar.getTime();
-				//get end date
-				int endDateDay = 0;
-				int endDateMonth = 0;
-				int endDateYear = 0;
-				//get end date day
-				String endDay = JOptionPane.showInputDialog(null,
-						"Please enter the day of the end date of the search: ");
-				endDateDay = Integer.parseInt(endDay);
-				
-				//get end date month
-				String endMonth = JOptionPane.showInputDialog(null,
-						"Please enter the month of the end date of the search: ");
-				endDateMonth = Integer.parseInt(endMonth);
-				
-				//get end date year
-				String endYear = JOptionPane.showInputDialog(null,
-						"Please enter the year of the end date of the search: ");
-				endDateYear = Integer.parseInt(endYear);
-				
-				calendar.set(endDateYear, endDateMonth, endDateDay, 17, 0, 0);
-				endDate = calendar.getTime();
-				numOfDays = (endDateDay - startDateDay) + 1;
-				int[] numOfDaysArray = new int[numOfDays];
-				daysLeft = numOfDays;
-				//set calendar to startDate
-				calendar.setTime(startDate);
-				//create currentDate for traversing
-				Date currentDate = startDate;
-				//look at each employee diary
-				for(int j = 0; j < employeeArray.length; j++)
-				{
-				//look at each day within the diary
-				//for(int x = 0; x < numOfDaysArray.length; x++)
-				//{
-				//look at each time slot within each employee diary
-					for(int i = 0; i < timeSlotsArray.length; i++)
-					{
-						//if all days have been checked
-						if(daysLeft == 0)
+				Date[] testTime = new Date[8];
+				for(int l = 0; l<8; l++) {
+					
+					Date meetingDate;
+					String stringDate;
+					//SimpleDateFormat datesFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm"); //Date formatter
+					for (int i = 9; i<17; i++) {
+						if (i==9) {
+							stringDate = "23-03-2018T0" + i + ":00";
+						}
+						else {
+							stringDate = "23-03-2018T" + i + ":00";
+						}
+						
+						try 
 						{
-							for(int k = 0; k < timeSlotsArray.length; k++)
-							{
-								if(timeSlotsArray[k] == 0)
-								{
-									System.out.println("line 299");
-									//show time slots available
-									System.out.println("Free space for meeting for all employees at: ");
-									if(k == 0)
-									{
-										System.out.println((k+1) + ". 9am");
-									}
-									if(k == 1)
-									{
-										System.out.println((k+1) + ". 10am");
-									}
-									if(k == 2)
-									{
-										System.out.println((k+1) + ". 11am");
-									}
-									if(k == 3)
-									{
-										System.out.println((k+1) + ". 12pm");
-									}
-									if(k == 4)
-									{
-										System.out.println((k+1) + ". 1pm");
-									}
-									if(k == 5)
-									{
-										System.out.println((k+1) + ". 2pm");
-									}
-									if(k == 6)
-									{
-										System.out.println((k+1) + ". 3pm");
-									}
-									if(k == 7)
-									{
-										System.out.println((k+1) + ". 4pm");
-									}
-								}
+							meetingDate = dateFormat.parse(stringDate); //format
+							testTime[i-9] = meetingDate; //Adding each hour of day to testTime array
+						}
+						catch (ParseException e2) //Catch errors
+						{
+							e2.printStackTrace(); //print it
+						}
+					}
+				}
+				for (int i = 0; i<employeeArray.length; i++) {
+					
+					Employee found = new Employee();
+					boolean unavailable;
+					found = list.findEmployee(employeeArray[i]);
+
+					for (int j = 0; j<testTime.length; j++) {
+						unavailable = found.checkMeetingExists(testTime[j]);
+						if (unavailable == true) { //unavailable
+							if (i==0) {
+								employee1Schedule[j]= 1;
 							}
-							//ask for users choice
-							String slot = JOptionPane.showInputDialog(null,
-									"During which slot would you like to add a meeting?");
-							int userSlotChoice = Integer.parseInt(slot);
-				
-							//ask for description
-							String description = JOptionPane.showInputDialog(null,
-									"Please enter the description");
-							//String description = Integer.parseInt(slot);
-				
-							//add meetings to the time slots
-							switch (userSlotChoice)
-							{
-							case 1:
-								for(int q = 0; q < employeeNum; q++)
-								{
-									calendar.setTime(startDate);
-									Date dateToAdd = null;
-									calendar.add(Calendar.HOUR_OF_DAY, 1);
-									dateToAdd = calendar.getTime();
-									employeeArray[q].getDiary().addMeeting(startDate,dateToAdd,description);
-								}
-								break;
-							case 2:
-								break;
-							case 3:
-								break;
-							case 4:
-								break;
-							case 5:
-								break;
-							case 6:
-								break;
-							case 7:
-								break;
-							case 8:
-								break;
+							else if (i==1){
+								employee2Schedule[j]= 1;
+							}
+							else if (i==2){
+								employee3Schedule[j]= 1;
+							}
+							else if (i==3){
+								employee4Schedule[j]= 1;
+							}
+							else if (i==4){
+								employee5Schedule[j]= 1;
 							}
 						}
-						else
-						{
-							//if hours are 17 (5 o'clock), then set hours to 9 and take 1 from days left
-							//this sets currentHours to the morning of the next day
-							if(calendar.HOUR_OF_DAY == 17)
-							{
-								calendar.add(Calendar.HOUR_OF_DAY, -8);
-								calendar.add(Calendar.DAY_OF_MONTH, 1);
-								//take one away from the daysLeft
-								daysLeft--;
+						else { //free
+							if (i==0) {
+								employee1Schedule[j] = 0;
 							}
-							//if there is a meeting at current time
-							else if(employeeArray[j].getDiary().findInTreeSearchMethod(currentDate))
-							{
-								System.out.println("line 388");
-								//add 1 to part of timeSlotsArray[i] that represents that hour
-								timeSlotsArray[i]++;
-								//add 1 to part of numOfDaysArray[x] that represents the day
-								//numOfDaysArray[x]++;
-								//add 1 hour to currentDate
-								calendar.add(Calendar.HOUR_OF_DAY, 1);
-								currentDate = calendar.getTime();
+							else if (i==1){
+								employee2Schedule[j]= 0;
+							}
+							else if (i==2){
+								employee3Schedule[j]= 0;
+							}
+							else if (i==3){
+								employee4Schedule[j]= 0;
+							}
+							else if (i==4){
+								employee5Schedule[j]= 0;
 							}
 						}
 					}
-				//}
 				}
+			
+				System.out.println("The available times for meetings are : ");
+				if (employee1Schedule[0] == 0 && employee2Schedule[0] == 0 && employee3Schedule[0] == 0 && employee4Schedule[0] == 0 && employee5Schedule[0] == 0) 
+				{
+					System.out.println(" 09:00 ");
+				}
+				if (employee1Schedule[1] == 0 && employee2Schedule[1] == 0 && employee3Schedule[1] == 0 && employee4Schedule[1] == 0 && employee5Schedule[1] == 0) 
+				{
+					System.out.println(" 10:00 ");
+				}
+				if (employee1Schedule[2] == 0 && employee2Schedule[2] == 0 && employee3Schedule[2] == 0 && employee4Schedule[2] == 0 && employee5Schedule[2] == 0) 
+				{
+					System.out.println(" 11:00 ");
+				}
+				if (employee1Schedule[3] == 0 && employee2Schedule[3] == 0 && employee3Schedule[3] == 0 && employee4Schedule[3] == 0 && employee5Schedule[3] == 0) 
+				{
+					System.out.println(" 12:00 ");
+				}
+				if (employee1Schedule[4] == 0 && employee2Schedule[4] == 0 && employee3Schedule[4] == 0 && employee4Schedule[4] == 0 && employee5Schedule[4] == 0) 
+				{
+					System.out.println(" 13:00 ");
+				}
+				if (employee1Schedule[5] == 0 && employee2Schedule[5] == 0 && employee3Schedule[5] == 0 && employee4Schedule[5] == 0 && employee5Schedule[5] == 0) 
+				{
+					System.out.println(" 14:00 ");
+				}
+				if (employee1Schedule[6] == 0 && employee2Schedule[6] == 0 && employee3Schedule[6] == 0 && employee4Schedule[6] == 0 && employee5Schedule[6] == 0) 
+				{
+					System.out.println(" 15:00 ");
+				}
+				if (employee1Schedule[7] == 0 && employee2Schedule[7] == 0 && employee3Schedule[7] == 0 && employee4Schedule[7] == 0 && employee5Schedule[7] == 0) 
+				{
+					System.out.println(" 16:00 ");
+				}
+				
+				String input = JOptionPane.showInputDialog(null,
+						"What time would you like to add the meeting? Please enter the time in hh:00 format");
+	
+				Date startDate;
+				String stringDate = "23-03-2018T" + input; 
+				try 
+				{
+					startDate = dateFormat.parse(stringDate); //format
+					Date endDate = new Date(startDate.getTime() + diary.calculateDuration());
+					String desc = diary.getDesc();
+					Employee employeeFound;
+					for (int i=0; i<employeeArray.length; i++) {
+						employeeFound = list.findEmployee(employeeArray[i]);
+						employeeFound.addMeeting(startDate, endDate, desc);
+					}
+				}
+				catch (ParseException e2) //Catch errors
+				{
+					e2.printStackTrace(); //print it
+				}
+				long endTime = System.nanoTime();
+				long duration =  endTime - start;
+				System.out.println("Total time take in " + duration);
 			}
+			
+
 		});
 		undoOption.addActionListener(new ActionListener() { //UNDO
 			public void actionPerformed(ActionEvent e) {
@@ -477,7 +431,7 @@ public class GUI {
 						found.editMeeting(2, originalNode.getStartTime(), originalNode.getEndTime(), null, null);
 					}
 					else if(changedNode.getDescription() != originalNode.getDescription()) {
-						found.editMeeting(2, originalNode.getStartTime(), null, originalNode.getDescription(), null);
+						found.editMeeting(3, originalNode.getStartTime(), null, originalNode.getDescription(), null);
 					}
 					else {
 						System.out.println("Error");
@@ -520,15 +474,6 @@ public class GUI {
 				System.exit(0);
 			}
 		});
-		runTests.addActionListener(new ActionListener() { //EXIT 
-			public void actionPerformed(ActionEvent e) {
-				list.addTestEmployee(10,"Jack");
-				list.addTestEmployee(9,"Jill");
-				
-				Employee found = list.find(10);
-				found.addTestMeeting();
-			}
-		});
 		printStack.addActionListener(new ActionListener() { //EXIT 
 			public void actionPerformed(ActionEvent e) {
 				undo.printStack();
@@ -543,7 +488,6 @@ public class GUI {
 	 * @param startDate the start date and time of the meeting
 	 */
 	public void handleStack(Employee employeeFound, Date startDate) {
-		System.out.println("Method called");
 			Meeting meeting = employeeFound.stack(startDate);
 			Date endTime = meeting.getEndTime();
 			String description = meeting.getDescription();
@@ -580,6 +524,4 @@ public class GUI {
 			undo.pushToStack(startDate, endTime, description, left, right);
 		}
 	}
-	
 }
-

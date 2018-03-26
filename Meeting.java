@@ -1,15 +1,10 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.swing.JOptionPane;
 
 /**
  * Class creating tree nodes (meetings)
  * 
  * @author Ross Maider
  *
- * @version v1.0
  */
 public class Meeting
 {
@@ -20,7 +15,6 @@ public class Meeting
 	Meeting left;
 	Meeting right;
 	
-	//added by Arran for use by Stack class 23/03/18
 	Meeting next;
 	
 	/**
@@ -44,6 +38,7 @@ public class Meeting
 	
 	/**
 	 * Constructor when the user loads in tree
+	 * 
 	 * @param inStartTime - Date the start time of the meeting
 	 * @param inEndTime - Date the end time of the meeting
 	 * @param desc - String a description of the meeting to be added 
@@ -57,7 +52,7 @@ public class Meeting
 	
 	/**
 	 * Default constructor, with parameters. This would be the one normally used.
-	 * @param inDateOfMeeting - Date the Date of the meeting
+	 * 
 	 * @param inStartTime - Time start time of the meeting
 	 * @param inEndTime - Time end time of the meeting
 	 * @param inDescription - String a description of the meeting
@@ -66,7 +61,6 @@ public class Meeting
 	 */
 	Meeting(Date inEndTime, Date inStartTime,String inDescription, Meeting inLeft, Meeting inRight)
 	{
-		
 		startTime = inStartTime;
 		endTime = inEndTime;
 		description = inDescription;
@@ -74,16 +68,18 @@ public class Meeting
 		right = inRight;
 	}
 	
+	
 	/**
 	 * Method to return the data of a node
 	 * @return - Data String
 	 */
 	public String getData()
 	{
-		String data = "The start date and time of the meeting is " + getStartTime() + " The end time and date of the meeting is " + getEndTime() + " Description: " + getDescription();
+		String data = "\nThe start date and time of the meeting is " + getStartTime() + "\nThe end time and date of the meeting is " + getEndTime() + "\nDescription: " + getDescription();
 		return data;
 	}
 
+	
 	//****GETTERS AND SETTERS****
 
 	/**
@@ -157,20 +153,11 @@ public class Meeting
 	}
 	
 	//added by Arran for use by Stack class 23/03/18
-	/**
-	 * Set next node
-	 * @param nextNode
-	 */
 	public void setNext(Meeting nextNode) {
 		next = nextNode;
 	}
 
-	/**
-	 * get next
-	 * @return next node
-	 */
 	public Meeting getNext() {
 		return next;
 	}
-	
 }

@@ -208,4 +208,29 @@ public class EmployeeList {
     	}
     	return foundNode;
     }
+    
+    
+    /**
+     * Method to find and return an employee in the list
+     * 
+     * @param name the name of the employee
+     * @return Employee A reference to an employee object
+     */
+    public Employee findEmployee(String name) {
+    	Employee foundNode = null;
+    	Employee marker = null;
+    	marker = head;
+    	
+    	do {
+    		String nameToSearch = marker.getName();
+    		if (name.equals(nameToSearch)) {
+    			foundNode = marker;
+    		}
+    		else {
+    			marker = marker.getNext();
+    		}
+    	}while (marker != null && foundNode == null);
+    	//System.out.println("Employee id: " + marker.getID());
+    	return foundNode;
+    }
 }

@@ -137,16 +137,6 @@ public class Employee {
     
     
     /**
-     * method to call add test meetings in diary class
-     */
-    public void addTestMeeting() {
-    	getDiary().addTestMeetings("23-04-2018T09:00", 45,"Test 1");
-    	getDiary().addTestMeetings("24-04-2018T09:00", 30,"Test 2");
-    	getDiary().addTestMeetings("25-04-2018T09:00", 60,"Test 3");
-    	getDiary().addTestMeetings("23-04-2018T12:00", 20,"Test 4");
-    }
-    
-    /**
      * Method to find the node in the tree
      * 
      * @param startDate the start date and time
@@ -155,6 +145,17 @@ public class Employee {
     public Meeting stack(Date startDate) {
     	return getDiary().findInTree(startDate);
     }
+    
+    /**
+     * Method to find the node in the tree
+     * 
+     * @param startDate the start date and time
+     * @return boolean
+     */
+    public boolean checkMeetingExists(Date startDate) {
+    	return getDiary().findInTreeSearchMethod(startDate);
+    }
+    
     
     /**
      * method to call input date of meeting in diary class
@@ -185,4 +186,3 @@ public class Employee {
 		this.diary = diary;
 	}
 }
-
