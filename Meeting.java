@@ -74,6 +74,10 @@ public class Meeting
 		right = inRight;
 	}
 	
+	/**
+	 * Method to return the data of a node
+	 * @return - Data String
+	 */
 	public String getData()
 	{
 		String data = "The start date and time of the meeting is " + getStartTime() + " The end time and date of the meeting is " + getEndTime() + " Description: " + getDescription();
@@ -153,10 +157,18 @@ public class Meeting
 	}
 	
 	//added by Arran for use by Stack class 23/03/18
+	/**
+	 * Set next node
+	 * @param nextNode
+	 */
 	public void setNext(Meeting nextNode) {
 		next = nextNode;
 	}
 
+	/**
+	 * get next
+	 * @return next node
+	 */
 	public Meeting getNext() {
 		return next;
 	}
